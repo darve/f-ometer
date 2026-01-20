@@ -3,7 +3,7 @@
 // ============================================
 
 /** Data source identifiers */
-export type Source = 'gdelt' | 'mastodon';
+export type Source = 'gdelt' | 'mastodon' | 'hackernews' | 'bluesky' | 'youtube';
 
 /** Context classification for swear usage */
 export type ContextTag = 'anger' | 'humor' | 'emphasis' | 'quote' | 'unknown';

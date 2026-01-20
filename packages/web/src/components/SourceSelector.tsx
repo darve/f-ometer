@@ -3,7 +3,7 @@
 // ============================================
 
 import type { SourceFilter } from '@/lib/api';
-import { Database, Globe, Layers } from 'lucide-react';
+import { Database, Globe, Layers, MessageSquare, Cloud, Play } from 'lucide-react';
 
 interface SourceSelectorProps {
   value: SourceFilter;
@@ -14,6 +14,9 @@ const sources: Array<{ value: SourceFilter; label: string; icon: React.ReactNode
   { value: 'combined', label: 'All Sources', icon: <Layers className="w-4 h-4" /> },
   { value: 'gdelt', label: 'GDELT News', icon: <Globe className="w-4 h-4" /> },
   { value: 'mastodon', label: 'Mastodon', icon: <Database className="w-4 h-4" /> },
+  { value: 'hackernews', label: 'Hacker News', icon: <MessageSquare className="w-4 h-4" /> },
+  { value: 'bluesky', label: 'Bluesky', icon: <Cloud className="w-4 h-4" /> },
+  { value: 'youtube', label: 'YouTube', icon: <Play className="w-4 h-4" /> },
 ];
 
 export function SourceSelector({ value, onChange }: SourceSelectorProps) {
