@@ -282,7 +282,7 @@ export function getTopTerms(
   const database = getDatabase();
   
   const sourceFilter = source === 'combined' ? '' : 'AND source = ?';
-  const params = source === 'combined' ? [hours, limit] : [source, hours, limit];
+  const params = source === 'combined' ? [hours, limit] : [hours, source, limit];
   
   const query = `
     SELECT term, SUM(count) as count
@@ -304,7 +304,8 @@ export function detectSpikes(
   const database = getDatabase();
   
   const sourceFilter = source === 'combined' ? '' : 'AND source = ?';
-  const params = source === 'combined' ? [] : [source];
+  // Need source param twice - once for recent CTE, once for baseline CTE
+  const params = source === 'combined' ? [threshold] : [source, source, threshold];
   
   // Compare last hour to 7-day average for same hour
   const query = `
@@ -337,7 +338,7 @@ export function detectSpikes(
   `;
   
   const stmt = database.prepare(query);
-  return stmt.all(...params, threshold) as Spike[];
+  return stmt.all(...params) as Spike[];
 }
 
 export function getNewsEvents(
@@ -365,7 +366,7 @@ export function getTotalCounts(
   const database = getDatabase();
   
   const sourceFilter = source === 'combined' ? '' : 'AND source = ?';
-  const params = source === 'combined' ? [startDate, endDate] : [source, startDate, endDate];
+  const params = source === 'combined' ? [startDate, endDate] : [startDate, endDate, source];
   
   const query = `
     SELECT COALESCE(SUM(count), 0) as total
