@@ -2,7 +2,7 @@
 // SHARE BUTTON COMPONENT
 // ============================================
 
-import { Share2, Check, Copy } from 'lucide-react';
+import { Share2, Check } from 'lucide-react';
 import { useState } from 'react';
 import type { SourceFilter } from '@/lib/api';
 
