@@ -23,7 +23,7 @@ export const api = new Hono();
 // VALIDATION SCHEMAS
 // ============================================
 
-const sourceSchema = z.enum(['gdelt', 'mastodon', 'combined']).default('combined');
+const sourceSchema = z.enum(['gdelt', 'mastodon', 'hackernews', 'bluesky', 'youtube', 'combined']).default('combined');
 const dateSchema = z.string().datetime().optional();
 
 // ============================================
