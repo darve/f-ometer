@@ -1,0 +1,10 @@
+node_modules
+*.db
+.git
+.gitignore
+.env
+.env.*
+packages/web
+*.log
+*.md
+.DS_Store

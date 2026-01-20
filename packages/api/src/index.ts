@@ -19,7 +19,7 @@ const app = new Hono();
 // Middleware
 app.use('*', logger());
 app.use('*', cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:5173',
+  origin: process.env.FRONTEND_URL || '*',
   credentials: true,
 }));
 
@@ -47,13 +47,15 @@ async function main() {
   migrate();
   
   // Start the server
-  console.log(`Starting server on port ${port}...`);
+  const hostname = process.env.NODE_ENV === 'production' ? '0.0.0.0' : 'localhost';
+  console.log(`Starting server on ${hostname}:${port}...`);
   serve({
     fetch: app.fetch,
     port,
+    hostname,
   });
   
-  console.log(`🚀 Fuckometer API running at http://localhost:${port}`);
+  console.log(`🚀 Fuckometer API running at http://${hostname}:${port}`);
   
   // Run initial data ingestion (in background)
   if (process.env.NODE_ENV !== 'test') {
