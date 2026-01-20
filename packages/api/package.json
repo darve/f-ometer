@@ -1,0 +1,31 @@
+{
+  "name": "@fuckometer/api",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "./dist/index.js",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "db:migrate": "tsx src/db/migrate.ts",
+    "ingest:gdelt": "tsx src/jobs/gdelt.ts",
+    "ingest:mastodon": "tsx src/jobs/mastodon.ts"
+  },
+  "dependencies": {
+    "@fuckometer/shared": "workspace:*",
+    "@hono/node-server": "^1.13.0",
+    "better-sqlite3": "^11.7.0",
+    "dotenv": "^16.4.0",
+    "hono": "^4.6.0",
+    "node-cron": "^3.0.3",
+    "zod": "^3.24.0"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.12",
+    "@types/node": "^22.10.0",
+    "@types/node-cron": "^3.0.11",
+    "tsx": "^4.19.0",
+    "typescript": "^5.7.0"
+  }
+}

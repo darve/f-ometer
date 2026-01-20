@@ -1,0 +1,90 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #0a0a0a;
+  --foreground: #fafafa;
+  --card: #171717;
+  --card-border: #262626;
+  --muted: #737373;
+}
+
+body {
+  @apply bg-[var(--background)] text-[var(--foreground)] font-mono antialiased;
+  min-height: 100vh;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--card);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--card-border);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--muted);
+}
+
+/* Card component */
+.card {
+  @apply bg-[var(--card)] border border-[var(--card-border)] rounded-xl p-4;
+}
+
+/* Stat card */
+.stat-value {
+  @apply text-3xl font-bold tabular-nums;
+}
+
+.stat-label {
+  @apply text-sm text-[var(--muted)] uppercase tracking-wide;
+}
+
+/* Badge */
+.badge {
+  @apply inline-flex items-center px-2 py-0.5 rounded text-xs font-medium;
+}
+
+.badge-up {
+  @apply bg-green-500/20 text-green-400;
+}
+
+.badge-down {
+  @apply bg-red-500/20 text-red-400;
+}
+
+.badge-neutral {
+  @apply bg-gray-500/20 text-gray-400;
+}
+
+/* Spike indicator */
+.spike-indicator {
+  @apply inline-flex items-center gap-1 px-2 py-1 bg-profane-500/20 text-profane-400 rounded-md text-sm font-medium;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+/* Source badge */
+.source-gdelt {
+  @apply bg-blue-500/20 text-blue-400;
+}
+
+.source-mastodon {
+  @apply bg-purple-500/20 text-purple-400;
+}
+
+.source-combined {
+  @apply bg-gray-500/20 text-gray-400;
+}
