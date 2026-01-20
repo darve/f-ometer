@@ -45,7 +45,7 @@ export function CollocationsChart({ term, source }: CollocationsChartProps) {
       <div className="flex items-center gap-2 mb-4">
         <Network className="w-5 h-5 text-profane-400" />
         <h3 className="text-lg font-semibold">
-          Words near "{term}"
+          {term === 'all' ? 'Common nearby words' : `Words near "${term}"`}
         </h3>
       </div>
       

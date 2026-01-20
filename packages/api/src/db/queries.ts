@@ -145,23 +145,28 @@ export function getTimeSeries(
   let query: string;
   let params: unknown[];
   
+  // Special "all" term aggregates across all profanity
+  const isAll = term === 'all';
+  const termFilter = isAll ? '' : 'AND term = ?';
+  
   if (source === 'combined') {
     query = `
       SELECT bucket_start as timestamp, SUM(count) as value
       FROM hourly_counts
-      WHERE term = ? AND bucket_start >= ? AND bucket_start <= ?
+      WHERE bucket_start >= ? AND bucket_start <= ? ${isAll ? '' : 'AND term = ?'}
       GROUP BY bucket_start
       ORDER BY bucket_start
     `;
-    params = [term, startDate, endDate];
+    params = isAll ? [startDate, endDate] : [startDate, endDate, term];
   } else {
     query = `
-      SELECT bucket_start as timestamp, count as value
+      SELECT bucket_start as timestamp, SUM(count) as value
       FROM hourly_counts
-      WHERE term = ? AND source = ? AND bucket_start >= ? AND bucket_start <= ?
+      WHERE source = ? AND bucket_start >= ? AND bucket_start <= ? ${isAll ? '' : 'AND term = ?'}
+      GROUP BY bucket_start
       ORDER BY bucket_start
     `;
-    params = [term, source, startDate, endDate];
+    params = isAll ? [source, startDate, endDate] : [source, startDate, endDate, term];
   }
   
   const stmt = database.prepare(query);
@@ -175,8 +180,16 @@ export function getHeatmap(
 ): HeatmapCell[] {
   const database = getDatabase();
   
+  const isAll = term === 'all';
   const sourceFilter = source === 'combined' ? '' : 'AND source = ?';
-  const params = source === 'combined' ? [term, days] : [term, source, days];
+  const termFilter = isAll ? '' : 'AND term = ?';
+  
+  let params: unknown[];
+  if (isAll) {
+    params = source === 'combined' ? [days] : [source, days];
+  } else {
+    params = source === 'combined' ? [term, days] : [term, source, days];
+  }
   
   const query = `
     SELECT 
@@ -184,7 +197,7 @@ export function getHeatmap(
       CAST(strftime('%H', bucket_start) AS INTEGER) as hourOfDay,
       SUM(count) as count
     FROM hourly_counts
-    WHERE term = ? ${sourceFilter}
+    WHERE 1=1 ${termFilter} ${sourceFilter}
       AND bucket_start >= datetime('now', '-' || ? || ' days')
     GROUP BY dayOfWeek, hourOfDay
   `;
@@ -236,15 +249,23 @@ export function getCollocations(
 ): Collocation[] {
   const database = getDatabase();
   
+  const isAll = term === 'all';
   const sourceFilter = source === 'combined' ? '' : 'AND source = ?';
-  const params = source === 'combined' ? [term, limit] : [term, source, limit];
+  const termFilter = isAll ? '' : 'AND term = ?';
+  
+  let params: unknown[];
+  if (isAll) {
+    params = source === 'combined' ? [limit] : [source, limit];
+  } else {
+    params = source === 'combined' ? [term, limit] : [term, source, limit];
+  }
   
   const query = `
-    SELECT term, nearby_term as nearbyTerm, SUM(count) as count, 
+    SELECT ${isAll ? "'all' as term" : 'term'}, nearby_term as nearbyTerm, SUM(count) as count, 
            ${source === 'combined' ? "'combined'" : 'source'} as source
     FROM collocations
-    WHERE term = ? ${sourceFilter}
-    GROUP BY term, nearby_term
+    WHERE 1=1 ${termFilter} ${sourceFilter}
+    GROUP BY nearby_term
     ORDER BY count DESC
     LIMIT ?
   `;

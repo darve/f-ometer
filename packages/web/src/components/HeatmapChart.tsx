@@ -58,7 +58,7 @@ export function HeatmapChart({ term, source }: HeatmapChartProps) {
       <div className="flex items-center gap-2 mb-4">
         <Calendar className="w-5 h-5 text-profane-400" />
         <h3 className="text-lg font-semibold">
-          "{term}" by time of day
+          {term === 'all' ? 'Profanity by time of day' : `"${term}" by time of day`}
         </h3>
       </div>
       

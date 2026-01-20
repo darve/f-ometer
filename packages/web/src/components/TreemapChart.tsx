@@ -55,19 +55,25 @@ function CustomContent({ x, y, width, height, name, percentage, index }: Treemap
             x={x + width / 2}
             y={y + height / 2 - 6}
             textAnchor="middle"
-            fill="#fafafa"
-            fontSize={12}
-            fontWeight={600}
+            fill="#fff"
+            stroke="none"
+            fontSize={13}
+            fontWeight="bold"
+            dominantBaseline="middle"
+            style={{ paintOrder: 'fill' }}
           >
             {name}
           </text>
           <text
             x={x + width / 2}
-            y={y + height / 2 + 10}
+            y={y + height / 2 + 12}
             textAnchor="middle"
-            fill="#fafafa"
-            fontSize={10}
-            opacity={0.7}
+            fill="#fff"
+            stroke="none"
+            fontSize={11}
+            fontWeight="bold"
+            dominantBaseline="middle"
+            style={{ paintOrder: 'fill' }}
           >
             {percentage.toFixed(1)}%
           </text>

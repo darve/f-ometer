@@ -18,7 +18,7 @@ import { BarChart3, Github } from 'lucide-react';
 function App() {
   // Parse URL params for initial state
   const params = new URLSearchParams(window.location.search);
-  const initialTerm = params.get('term') || 'fuck';
+  const initialTerm = params.get('term') || 'all';
   const initialSource = (params.get('source') as SourceFilter) || 'combined';
   
   const [selectedTerm, setSelectedTerm] = useState(initialTerm);
@@ -27,7 +27,7 @@ function App() {
   // Update URL when selection changes
   useEffect(() => {
     const params = new URLSearchParams();
-    if (selectedTerm && selectedTerm !== 'fuck') params.set('term', selectedTerm);
+    if (selectedTerm && selectedTerm !== 'all') params.set('term', selectedTerm);
     if (selectedSource !== 'combined') params.set('source', selectedSource);
     
     const newUrl = params.toString() 

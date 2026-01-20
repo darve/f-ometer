@@ -55,7 +55,7 @@ export function TimeSeriesChart({ term, source }: TimeSeriesChartProps) {
         <div className="flex items-center gap-2">
           <TrendingUp className="w-5 h-5 text-profane-400" />
           <h3 className="text-lg font-semibold">
-            "{term}" over time
+            {term === 'all' ? 'All profanity over time' : `"${term}" over time`}
           </h3>
         </div>
         {data.spikes.length > 0 && (

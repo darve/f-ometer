@@ -41,7 +41,7 @@ export function TermSelector({ value, onChange }: TermSelectorProps) {
       >
         <Search className="w-4 h-4 text-[var(--muted)]" />
         <span className={value ? 'text-white' : 'text-[var(--muted)]'}>
-          {value || 'Select a term...'}
+          {value === 'all' ? '🤬 All profanity' : value || 'Select a term...'}
         </span>
       </div>
       
@@ -69,6 +69,24 @@ export function TermSelector({ value, onChange }: TermSelectorProps) {
             
             {/* Term list */}
             <div className="max-h-64 overflow-y-auto">
+              {/* All profanity option */}
+              {!search && (
+                <button
+                  onClick={() => {
+                    onChange('all');
+                    setIsOpen(false);
+                    setSearch('');
+                  }}
+                  className={`
+                    w-full flex items-center justify-between px-3 py-2 text-left hover:bg-[#222] transition-colors border-b border-[#262626]
+                    ${value === 'all' ? 'bg-profane-500/10' : ''}
+                  `}
+                >
+                  <span className="font-medium">🤬 All profanity</span>
+                  <span className="badge bg-profane-500/20 text-profane-400">aggregate</span>
+                </button>
+              )}
+              
               {filteredTerms.map((term) => (
                 <button
                   key={term.term}
@@ -91,7 +109,7 @@ export function TermSelector({ value, onChange }: TermSelectorProps) {
                 </button>
               ))}
               
-              {filteredTerms.length === 0 && (
+              {filteredTerms.length === 0 && !search && (
                 <div className="px-3 py-4 text-center text-[var(--muted)]">
                   No matching terms
                 </div>
