@@ -36,7 +36,7 @@ export function startScheduler(): void {
 export async function runInitialIngestion(): Promise<void> {
   console.log('[Scheduler] Running initial ingestion...');
   
-  // Run both in parallel
+  // Run all in parallel
   await Promise.all([
     ingestGdelt().catch(e => console.error('[GDELT] Initial ingestion failed:', e)),
     ingestMastodon().catch(e => console.error('[Mastodon] Initial ingestion failed:', e)),
